@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".GetProfileActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/addPhoto"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/upload_photo"
+        android:background="@drawable/circle_imageview"
+        android:layout_marginTop="26dp" />
+
+    <TextView
+        android:id="@+id/addPhotoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add a Profile Photo"
+        android:textColor="#000000"
+        android:layout_below="@id/addPhoto"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true" />
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="12dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="25dp"
+        android:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="17sp"
+            android:layout_marginLeft="2dp"
+            android:text=""/>
+
+        <EditText
+            android:id="@+id/get_name_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:layout_below="@id/textName"
+            android:textColorHint="@color/colorPrimary"
+            android:hint="Enter name"/>
+
+        <TextView
+            android:id="@+id/button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="48sp"
+            android:padding="10dp"
+            android:text=">"
+            android:textColor="@color/colorPrimary"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
