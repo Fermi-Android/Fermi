@@ -1,7 +1,6 @@
 package com.example.fermi.fermi;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,13 +9,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,20 +25,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.UUID;
 
 public class GetProfileActivity extends AppCompatActivity {
@@ -51,11 +41,11 @@ public class GetProfileActivity extends AppCompatActivity {
     TextView text;
     EditText name;
     TextView next;
-    private FirebaseAuth auth;
     FirebaseUser user;
     boolean isImageSet = false;
     Uri uri = null;
     Uri downloadUrl = null;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +61,7 @@ public class GetProfileActivity extends AppCompatActivity {
         if (user != null) {
             if (user.getPhotoUrl() == null) {
                 Log.i("GetProfile", "Photo does not exists returned =" + user.getPhotoUrl());
-                Toast.makeText(this, "Select a photo", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, "Select a photo", Toast.LENGTH_SHORT).show();
                 image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -101,7 +91,7 @@ public class GetProfileActivity extends AppCompatActivity {
                     } else*/ if (name.getText().toString().trim().equals("")) {
                         name.setError("Name cannot be empty");
                     } else {
-                        text.setText("Please wait, Uploading Image...");
+                        text.setText("Please wait, Updating Profile...");
                         uploadProfileImage();
                     }
                 }
@@ -112,11 +102,13 @@ public class GetProfileActivity extends AppCompatActivity {
     public void uploadProfileImage() {
         Log.i("UPLOAD IMAGE", "UPLOADING IMAGE NOW");
         ContentResolver contentResolver = GetProfileActivity.this.getContentResolver();
-        StorageMetadata storageMetadata = new StorageMetadata.Builder()
-                .setContentType(contentResolver.getType(uri))
-                .build();
+        if (uri != null) {
+            StorageMetadata storageMetadata = new StorageMetadata.Builder()
+                    .setContentType(contentResolver.getType(uri))
+                    .build();
+        }
         try {
-            if(!uri.toString().contains("https://")) {
+            if (uri != null && !uri.toString().contains("https://")) {
                 UploadTask task = FirebaseStorage.getInstance().getReference()
                         .child("users")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -175,34 +167,6 @@ public class GetProfileActivity extends AppCompatActivity {
         }
     }
 
-
-    public class DownloadImagesTask2 extends AsyncTask<String, Void, Bitmap> {
-
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            return download_Image(urls[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            image.setImageBitmap(result);        }
-
-        private Bitmap download_Image(String url) {
-
-            Bitmap bmp =null;
-            try{
-                URL ulrn = new URL(url);
-                HttpURLConnection con = (HttpURLConnection)ulrn.openConnection();
-                InputStream is = con.getInputStream();
-                bmp = BitmapFactory.decodeStream(is);
-                if (null != bmp)
-                    return bmp;
-
-            }catch(Exception e){}
-            return bmp;
-        }
-    }
-
     /**
      * Fires an intent to spin up the "file chooser" UI and select an image.
      */
@@ -246,6 +210,35 @@ public class GetProfileActivity extends AppCompatActivity {
                 text.setText("This is how you will appear!");
                 isImageSet = true;
             }
+        }
+    }
+
+    public class DownloadImagesTask2 extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            return download_Image(urls[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            image.setImageBitmap(result);
+        }
+
+        private Bitmap download_Image(String url) {
+
+            Bitmap bmp = null;
+            try {
+                URL ulrn = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) ulrn.openConnection();
+                InputStream is = con.getInputStream();
+                bmp = BitmapFactory.decodeStream(is);
+                if (null != bmp)
+                    return bmp;
+
+            } catch (Exception e) {
+            }
+            return bmp;
         }
     }
 }

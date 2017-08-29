@@ -44,11 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
-        if (user != null && !user.getDisplayName().equals("") && user.getPhotoUrl() != null) {
+        if (user != null && !user.getDisplayName().equals("")) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        } else if(user != null && (user.getDisplayName().equals("") || user.getPhotoUrl() == null)) {
-            startActivity(new Intent(LoginActivity.this, GetProfileActivity.class));
             finish();
         }
 

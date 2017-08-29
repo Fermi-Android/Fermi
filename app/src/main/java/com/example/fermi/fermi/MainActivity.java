@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -20,13 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.w3c.dom.Text;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -39,13 +35,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
+    CircleImageView photo;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    CircleImageView photo;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
                 DownloadImagesTask task = new DownloadImagesTask();
                 task.execute(user.getPhotoUrl().toString());
             } else {
+                TextView name = (TextView) findViewById(R.id.profileName);
+                name.setText(user.getDisplayName());
                 photo.setImageResource(R.drawable.fermi);
             }
 
