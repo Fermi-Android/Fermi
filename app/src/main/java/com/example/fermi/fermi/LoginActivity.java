@@ -2,10 +2,10 @@ package com.example.fermi.fermi;
 
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -29,12 +29,12 @@ import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final int RC_SIGN_IN = 123;
+    GradientDrawable drawable;
     private EditText emailInput, passwordInput;
     private Button fbButton, loginBtn;
     private TextView signupText1, signupText2, resetPassword;
     private FirebaseAuth auth;
-    private static final int RC_SIGN_IN = 123;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         resetPassword = (TextView) findViewById(R.id.resetPassword);
 
         loginBtn.setEnabled(false);
-        final GradientDrawable drawable = (GradientDrawable)loginBtn.getBackground();
+        drawable = (GradientDrawable) loginBtn.getBackground();
         drawable.setStroke(4, getResources().getColor(R.color.colorPrimaryLight));
         loginBtn.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimaryLight, null));
 
@@ -81,6 +81,33 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        emailInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().trim().equals("")) {
+                    loginBtn.setEnabled(false);
+                    drawable.setStroke(4, getResources().getColor(R.color.colorPrimaryLight));
+                    loginBtn.setBackground(getResources().getDrawable(R.drawable.round_shape_btn));
+                    loginBtn.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimaryLight, null));
+                } else {
+                    loginBtn.setEnabled(true);
+                    loginBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                    //drawable.setStroke(4, getResources().getColor(R.color.colorPrimaryDark));
+                    loginBtn.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         passwordInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,6 +124,11 @@ public class LoginActivity extends AppCompatActivity {
                         //drawable.setStroke(4, getResources().getColor(R.color.colorPrimaryDark));
                         loginBtn.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
                     }
+                } else {
+                    loginBtn.setEnabled(false);
+                    drawable.setStroke(4, getResources().getColor(R.color.colorPrimaryLight));
+                    loginBtn.setBackground(getResources().getDrawable(R.drawable.round_shape_btn));
+                    loginBtn.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimaryLight, null));
                 }
             }
 
