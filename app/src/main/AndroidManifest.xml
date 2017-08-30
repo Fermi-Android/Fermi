@@ -28,7 +28,7 @@
         <activity android:name=".GetProfileActivity" />
 
         <activity android:name=".MainActivity" />
-        <activity android:name=".SignupFormActivity"></activity>
+        <activity android:name=".GetSubjectsActivity"></activity>
     </application>
 
 </manifest>

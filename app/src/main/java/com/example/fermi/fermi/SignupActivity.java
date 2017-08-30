@@ -14,6 +14,8 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 public class SignupActivity extends AppCompatActivity {
@@ -21,6 +23,9 @@ public class SignupActivity extends AppCompatActivity {
     private static final int RC_EMAIL_SIGNUP = 55;
     Button facebookButton;
     TextView emailSignup, loginText2, loginText1;
+    DatabaseReference mDatabase;
+    FirebaseAuth auth;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +37,10 @@ public class SignupActivity extends AppCompatActivity {
         loginText1 = (TextView) findViewById(R.id.loginText1);
 
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         if (auth.getCurrentUser() != null) {
             // already signed in
             startActivity(new Intent(SignupActivity.this, LoginActivity.class));
@@ -41,7 +49,7 @@ public class SignupActivity extends AppCompatActivity {
            /* emailSignup.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivityForResult(new Intent(SignupActivity.this, SignupFormActivity.class), RC_EMAIL_SIGNUP);
+                    startActivityForResult(new Intent(SignupActivity.this, GetSubjectsActivity.class), RC_EMAIL_SIGNUP);
                 }
             });*/
             facebookButton.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +104,12 @@ public class SignupActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             // Successfully signed in
             if (resultCode == ResultCodes.OK) {
+
+                User user = new User();
+                user.setName(auth.getCurrentUser().getDisplayName());
+                mDatabase.child("users").child(auth.getCurrentUser().getUid()).setValue(user);
+
+
                 startActivity(new Intent(SignupActivity.this, GetProfileActivity.class));
                 SignupActivity.this.finish();
                 return;
