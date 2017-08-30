@@ -6,10 +6,18 @@ package com.example.fermi.fermi;
 
 public class User {
     String name = "";
-    boolean isHelper = false, maths = false, physics = false, chemistry = false, biology = false, arts = false, health = false, fitness = false;
+    boolean hasAnswered = false, isHelper = false, maths = false, physics = false, chemistry = false, biology = false, arts = false, health = false, fitness = false;
 
     User() {
         //default constructor required
+    }
+
+    public boolean isHasAnswered() {
+        return hasAnswered;
+    }
+
+    public void setHasAnswered(boolean hasAnswered) {
+        this.hasAnswered = hasAnswered;
     }
 
     public String getName() {
@@ -24,8 +32,8 @@ public class User {
         return isHelper;
     }
 
-    public void setHelper(boolean helper) {
-        isHelper = helper;
+    public void setHelper(boolean isHelper) {
+        this.isHelper = isHelper;
     }
 
     public boolean isMaths() {

@@ -14,8 +14,11 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 public class SignupActivity extends AppCompatActivity {
@@ -105,13 +108,24 @@ public class SignupActivity extends AppCompatActivity {
             // Successfully signed in
             if (resultCode == ResultCodes.OK) {
 
-                User user = new User();
-                user.setName(auth.getCurrentUser().getDisplayName());
-                mDatabase.child("users").child(auth.getCurrentUser().getUid()).setValue(user);
+                mDatabase.child("users").child(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = (dataSnapshot.getValue(User.class) != null) ? dataSnapshot.getValue(User.class) : new User();
+                        user.setName(auth.getCurrentUser().getDisplayName());
+                        mDatabase.child("users").child(auth.getCurrentUser().getUid()).setValue(user);
 
 
-                startActivity(new Intent(SignupActivity.this, GetProfileActivity.class));
-                SignupActivity.this.finish();
+                        startActivity(new Intent(SignupActivity.this, GetProfileActivity.class));
+                        SignupActivity.this.finish();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
                 return;
             } else {
                 // Sign in failed

@@ -25,6 +25,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.UploadTask;
@@ -47,6 +52,8 @@ public class GetProfileActivity extends AppCompatActivity {
     Uri uri = null;
     Uri downloadUrl = null;
     ProgressBar progressBar;
+    DatabaseReference mDatabase;
+    User mUser;
     private FirebaseAuth auth;
 
     @Override
@@ -60,6 +67,9 @@ public class GetProfileActivity extends AppCompatActivity {
         next = (TextView) findViewById(R.id.button_next);
         user = FirebaseAuth.getInstance().getCurrentUser();
         progressBar = (ProgressBar) findViewById(R.id.progress_bar_get_profile);
+
+        auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         if (user != null) {
             if (user.getPhotoUrl() == null) {
@@ -79,7 +89,7 @@ public class GetProfileActivity extends AppCompatActivity {
                 isImageSet = true;
                 text.setVisibility(View.GONE);
             }
-            if(user.getDisplayName() != null) {
+            if (user.getDisplayName() != null) {
                 name.setText(user.getDisplayName());
             }
         }
@@ -91,7 +101,8 @@ public class GetProfileActivity extends AppCompatActivity {
                    /* if (!isImageSet) {
                         Log.i("GetProfile", "Photo does not exists returned =" + user.getPhotoUrl());
                         Toast.makeText(GetProfileActivity.this, "Select a photo", Toast.LENGTH_SHORT).show();
-                    } else*/ if (name.getText().toString().trim().equals("")) {
+                    } else*/
+                    if (name.getText().toString().trim().equals("")) {
                         name.setError("Name cannot be empty");
                     } else {
                         text.setText("Please wait, Updating Profile...");
@@ -137,9 +148,25 @@ public class GetProfileActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 progressBar.setEnabled(false);
                                                 progressBar.setVisibility(View.GONE);
-                                                startActivity(new Intent(GetProfileActivity.this, MainActivity.class));
-                                                Log.d("UpdateProfile", "User profile updated.");
-                                                GetProfileActivity.this.finish();
+
+                                                mDatabase.child("users").child(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                                        mUser = dataSnapshot.getValue(User.class);
+                                                        if (mUser.isHasAnswered()) {
+                                                            startActivity(new Intent(GetProfileActivity.this, MainActivity.class));
+                                                        } else {
+                                                            startActivity(new Intent(GetProfileActivity.this, GetSubjectsActivity.class));
+                                                        }
+                                                        Log.d("UpdateProfile", "User profile updated.");
+                                                        GetProfileActivity.this.finish();
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
+
+                                                    }
+                                                });
                                             }
                                         }
                                     });
@@ -164,9 +191,25 @@ public class GetProfileActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     progressBar.setEnabled(false);
                                     progressBar.setVisibility(View.GONE);
-                                    startActivity(new Intent(GetProfileActivity.this, MainActivity.class));
-                                    Log.d("UpdateProfile", "User profile updated.");
-                                    GetProfileActivity.this.finish();
+
+                                    mDatabase.child("users").child(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            mUser = dataSnapshot.getValue(User.class);
+                                            if (mUser.isHasAnswered()) {
+                                                startActivity(new Intent(GetProfileActivity.this, MainActivity.class));
+                                            } else {
+                                                startActivity(new Intent(GetProfileActivity.this, GetSubjectsActivity.class));
+                                            }
+                                            Log.d("UpdateProfile", "User profile updated.");
+                                            GetProfileActivity.this.finish();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
                                 }
                             }
                         });
