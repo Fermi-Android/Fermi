@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class GetProfileActivity extends AppCompatActivity {
     boolean isImageSet = false;
     Uri uri = null;
     Uri downloadUrl = null;
+    ProgressBar progressBar;
     private FirebaseAuth auth;
 
     @Override
@@ -57,6 +59,7 @@ public class GetProfileActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.get_name_input);
         next = (TextView) findViewById(R.id.button_next);
         user = FirebaseAuth.getInstance().getCurrentUser();
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_get_profile);
 
         if (user != null) {
             if (user.getPhotoUrl() == null) {
@@ -92,6 +95,8 @@ public class GetProfileActivity extends AppCompatActivity {
                         name.setError("Name cannot be empty");
                     } else {
                         text.setText("Please wait, Updating Profile...");
+                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setEnabled(true);
                         uploadProfileImage();
                     }
                 }
@@ -130,6 +135,8 @@ public class GetProfileActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
+                                                progressBar.setEnabled(false);
+                                                progressBar.setVisibility(View.GONE);
                                                 startActivity(new Intent(GetProfileActivity.this, MainActivity.class));
                                                 Log.d("UpdateProfile", "User profile updated.");
                                                 GetProfileActivity.this.finish();
@@ -155,6 +162,8 @@ public class GetProfileActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    progressBar.setEnabled(false);
+                                    progressBar.setVisibility(View.GONE);
                                     startActivity(new Intent(GetProfileActivity.this, MainActivity.class));
                                     Log.d("UpdateProfile", "User profile updated.");
                                     GetProfileActivity.this.finish();

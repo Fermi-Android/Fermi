@@ -11,61 +11,70 @@
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/upload_photo"
+        android:layout_marginTop="26dp"
         android:background="@drawable/circle_imageview"
-        android:layout_marginTop="26dp" />
+        android:src="@drawable/upload_photo" />
 
     <TextView
         android:id="@+id/addPhotoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/addPhoto"
+        android:layout_centerHorizontal="true"
         android:text="Add a Profile Photo"
         android:textColor="#000000"
-        android:layout_below="@id/addPhoto"
-        android:textSize="18sp"
-        android:layout_centerHorizontal="true" />
+        android:textSize="18sp" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_get_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addPhotoText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:visibility="invisible" />
     
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="12dp"
-        android:layout_marginRight="22dp"
         android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
         android:layout_marginTop="25dp"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorPrimaryDark"
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/textName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:text=""
             android:textAllCaps="true"
             android:textColor="#000000"
-            android:textSize="17sp"
-            android:layout_marginLeft="2dp"
-            android:text=""/>
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/get_name_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:textSize="22sp"
+            android:layout_below="@id/textName"
+            android:hint="Enter name"
             android:imeOptions="actionDone"
             android:maxLines="1"
-            android:layout_below="@id/textName"
+            android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
-            android:hint="Enter name"/>
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/button_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="48sp"
+            android:layout_alignParentEnd="true"
             android:padding="10dp"
             android:text=">"
             android:textColor="@color/colorPrimary"
-            android:layout_alignParentEnd="true"/>
+            android:textSize="48sp" />
 
     </RelativeLayout>
 
