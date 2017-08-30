@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 
@@ -31,6 +38,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
     GradientDrawable drawable;
+    DatabaseReference mDatabase;
+    ProgressBar progressBar;
+    LinearLayout rootView;
+    FirebaseUser user;
     private EditText emailInput, passwordInput;
     private Button fbButton, loginBtn;
     private TextView signupText1, signupText2, resetPassword;
@@ -42,13 +53,37 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //PrintHashKey();
+        progressBar = (ProgressBar) findViewById(R.id.loginProgressBar);
+        rootView = (LinearLayout) findViewById(R.id.rootLogin);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
+        user = auth.getCurrentUser();
         if (user != null && !user.getDisplayName().equals("")) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+
+            rootView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+
+            mDatabase.child("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User mUser = dataSnapshot.getValue(User.class);
+                    if (mUser.isHasAnswered()) {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        LoginActivity.this.finish();
+                    } else {
+                        startActivity(new Intent(LoginActivity.this, GetSubjectsActivity.class));
+                        LoginActivity.this.finish();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
 
         emailInput = (EditText) findViewById(R.id.emailInput);
@@ -173,8 +208,25 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                         }
                                     } else {
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                        finish();
+                                        mDatabase.child("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                User mUser = dataSnapshot.getValue(User.class);
+                                                rootView.setVisibility(View.GONE);
+                                                progressBar.setVisibility(View.VISIBLE);
+                                                if (mUser.isHasAnswered()) {
+                                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                                } else {
+                                                    startActivity(new Intent(LoginActivity.this, GetSubjectsActivity.class));
+                                                }
+                                                LoginActivity.this.finish();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
                                     }
                                 }
                             });
@@ -206,8 +258,27 @@ public class LoginActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             // Successfully signed in
             if (resultCode == ResultCodes.OK) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
+                rootView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+
+                mDatabase.child("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User mUser = dataSnapshot.getValue(User.class);
+                        if (mUser.isHasAnswered()) {
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            LoginActivity.this.finish();
+                        } else {
+                            startActivity(new Intent(LoginActivity.this, GetSubjectsActivity.class));
+                            LoginActivity.this.finish();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 return;
             } else {
                 // Sign in failed
