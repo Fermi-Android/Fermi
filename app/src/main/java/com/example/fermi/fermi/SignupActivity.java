@@ -14,9 +14,11 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.Arrays;
 public class SignupActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
+    private static final int RC_EMAIL_SIGNUP = 55;
     Button facebookButton;
     TextView emailSignup, loginText2, loginText1;
     @Override
@@ -36,6 +38,12 @@ public class SignupActivity extends AppCompatActivity {
             startActivity(new Intent(SignupActivity.this, LoginActivity.class));
             SignupActivity.this.finish();
         } else {
+           /* emailSignup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivityForResult(new Intent(SignupActivity.this, SignupFormActivity.class), RC_EMAIL_SIGNUP);
+                }
+            });*/
             facebookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -60,6 +68,7 @@ public class SignupActivity extends AppCompatActivity {
                                             Arrays.asList(
                                                     new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build()
                                             ))
+                                    .setTheme(R.style.FirebaseTheme)
                                     .build(),
                             RC_SIGN_IN);
                 }
@@ -83,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // RC_SIGN_IN is the request code you passed into startActivityForResult(...) when starting the sign in flow.
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN || requestCode == RC_EMAIL_SIGNUP) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             // Successfully signed in
             if (resultCode == ResultCodes.OK) {

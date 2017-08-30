@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,9 +39,9 @@
                 android:paddingBottom="8dp"
                 android:paddingLeft="8dp"
                 android:paddingTop="8dp"
-                android:textSize="16sp"
                 android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColorHint="@color/colorAccent"
+                android:textSize="16sp" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -63,9 +62,9 @@
                 android:paddingBottom="8dp"
                 android:paddingLeft="8dp"
                 android:paddingTop="8dp"
-                android:textSize="16sp"
                 android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColorHint="@color/colorAccent"
+                android:textSize="16sp" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -79,17 +78,16 @@
             android:background="@drawable/round_shape_btn"
             android:paddingLeft="46dp"
             android:paddingRight="46dp"
-            android:textAllCaps="false"
             android:text="Log In"
+            android:textAllCaps="false"
             android:textColor="@color/colorPrimaryDark" />
 
         <TextView
-            android:layout_margin="10dp"
+            android:id="@+id/resetPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/resetPassword"
-            android:text=" Forgot your login details? Get help signing in"/>
-
+            android:layout_margin="10dp"
+            android:text=" Forgot your login details? Get help signing in" />
 
 
         <RelativeLayout
@@ -137,18 +135,18 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:background="#9E9E9E"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
+        android:layout_weight="1"
         android:background="@color/colorPrimary"
-        android:layout_weight="1">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
 
         <TextView
@@ -156,18 +154,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:text="Don't have an account?"
             android:textColor="#9E9E9E"
-            android:textSize="12sp"
-            android:text="Don't have an account?"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/signupText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:text="Sign up"
             android:textColor="#434343"
-            android:textSize="12sp"
-            android:text="Sign up"/>
+            android:textSize="12sp" />
 
     </LinearLayout>
 
