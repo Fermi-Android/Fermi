@@ -5,6 +5,8 @@
     <color name="colorPrimaryLight">#bbdefb</color>
     <color name="colorAccent">#616161</color>
 
+    <color name="orangish">#ff7043</color>
+
     <color name="gray">#bdbdbd</color>
 
     <color name="bg_login">#26ae90</color>

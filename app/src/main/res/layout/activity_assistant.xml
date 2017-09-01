@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context="com.example.fermi.fermi.AssistantActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/AssistantToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:title="XYZ"
+        app:navigationIcon="?attr/homeAsUpIndicator" />
+
+
+    <TextView
+        android:id="@+id/assistantTextTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AssistantToolbar"
+        android:background="@color/colorPrimaryDark"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="20dp"
+        android:text="Assistant activity"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/assistantLayoutYesNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/assistantTextTop"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/round_shape_btn"
+            android:text="YES" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/round_shape_btn"
+            android:text="NO" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/assistantTextBelow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/assistantTextTop"
+        android:background="@color/orangish"
+        android:elevation="5dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="20dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
+
+    <GridLayout
+        android:id="@+id/button_grid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/assistantTextBelow"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:columnCount="3">
+
+        <Button
+            android:layout_margin="15dp"
+            android:background="@drawable/round_shape_btn"
+            android:onClick="subjectChosen"
+            android:tag="physics"
+            android:text="Physics"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <Button
+            android:layout_margin="15dp"
+            android:background="@drawable/round_shape_btn"
+            android:onClick="subjectChosen"
+            android:tag="chemistry"
+            android:text="Chemistry"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <Button
+            android:layout_margin="15dp"
+            android:background="@drawable/round_shape_btn"
+            android:onClick="subjectChosen"
+            android:tag="maths"
+            android:text="Maths"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <Button
+            android:layout_margin="15dp"
+            android:background="@drawable/round_shape_btn"
+            android:onClick="subjectChosen"
+            android:tag="biology"
+            android:text="Biology"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <Button
+            android:layout_margin="15dp"
+            android:background="@drawable/round_shape_btn"
+            android:onClick="subjectChosen"
+            android:tag="health"
+            android:text="Health"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <Button
+            android:layout_margin="15dp"
+            android:background="@drawable/round_shape_btn"
+            android:onClick="subjectChosen"
+            android:tag="fitness"
+            android:text="Fitness"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <Button
+            android:layout_margin="15dp"
+            android:background="@drawable/round_shape_btn"
+            android:onClick="subjectChosen"
+            android:tag="arts"
+            android:text="Arts"
+            android:textColor="@color/colorPrimaryDark" />
+
+    </GridLayout>
+
+    <TextView
+        android:id="@+id/bottomBarTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"
+        android:background="@color/orangish"
+        android:padding="4dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        android:visibility="invisible" />
+
+</RelativeLayout>

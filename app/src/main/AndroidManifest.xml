@@ -26,9 +26,13 @@
         </activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".GetProfileActivity" />
-
         <activity android:name=".MainActivity" />
-        <activity android:name=".GetSubjectsActivity"></activity>
+        <activity android:name=".GetSubjectsActivity" />
+        <activity android:name=".Signup1Activity" />
+        <activity android:name=".Signup2Activity" />
+        <activity
+            android:name=".AssistantActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

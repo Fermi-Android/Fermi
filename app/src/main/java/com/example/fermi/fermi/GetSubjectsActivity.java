@@ -107,7 +107,10 @@ public class GetSubjectsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 askSubjectsText.setVisibility(View.INVISIBLE);
                 gridLayout.setVisibility(View.INVISIBLE);
+                mUser = new User();
                 mUser.setHelper(false);
+                mUser.setHasAnswered(true);
+                mUser.setName(user.getDisplayName());
                 nextButton.setEnabled(true);
                 nextButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 nextButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
